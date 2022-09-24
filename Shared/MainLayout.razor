@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
+@inject GlobalValuesManager _gvManager;
 
-<MudThemeProvider />
+<MudThemeProvider @bind-IsDarkMode="darkMode" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
@@ -21,9 +22,27 @@
 
 @code {
     bool _drawerOpen = false;
+    bool darkMode = true;
 
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _gvManager.OnThemeChanged += async () => await ThemeChanged();
+    }
+
+    private async Task ThemeChanged()
+    {
+        darkMode = _gvManager.IsDarkMode;
+        await InvokeAsync(
+            () => 
+            {
+                StateHasChanged();
+            }
+        );
+        
     }
 }

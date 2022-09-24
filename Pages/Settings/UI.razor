@@ -1,0 +1,15 @@
+@page "/settings/ui"
+@inject GlobalValuesManager _gvManager;
+
+
+<MudSwitch Checked="@(_gvManager.IsDarkMode)" CheckedChanged="@((value) => ChangeThemeMode(value))" Color="Color.Primary" Class="ma-4" T="bool" Label="Toggle Light/Dark Mode"/>
+
+@code{
+
+    private void ChangeThemeMode(bool value)
+    {
+        _gvManager.IsDarkMode = value;
+        StateHasChanged();
+    }
+}
+
